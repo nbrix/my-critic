@@ -41,9 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # Third-party
     'crispy_forms',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 
     # Local
     'accounts',
@@ -143,8 +147,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
-
 # django-crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# django-allauth config
+LOGIN_REDIRECT_URL = 'home'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'home'
+ACCOUNT_LOGOUT_ON_GET = True
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_USER_MODEL_EMAIL_FIELD = 'email'
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_UNIQUE_USERNAME = True
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_FORMS = {'login': 'accounts.forms.CustomLoginForm'}
