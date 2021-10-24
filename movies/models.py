@@ -54,9 +54,14 @@ class Critic(models.Model):
     )
     name = models.CharField(max_length=64)
     publisher = models.CharField(max_length=128, null=True, blank=True)
+    slug = models.SlugField(max_length=200, null=True)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = self.slug or slugify(self.name)
+        super().save(*args, **kwargs)
 
 class Movie(models.Model):
     id = models.UUIDField(
@@ -80,13 +85,23 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
+    def all_genres(self):
+        genre_list = [obj.genre for obj in self.genres.all()]
+        return ' | '.join(genre_list)
+
     def save(self, *args, **kwargs):
         self.slug = self.slug or slugify(self.title)
         super().save(*args, **kwargs)
 
 class Review(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     critic = models.ForeignKey(Critic, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     review = models.TextField(null=True, blank=True)
     review_score = models.CharField(max_length=16, null=True, blank=True)
     review_date = models.DateField(null=True, blank=True)
+

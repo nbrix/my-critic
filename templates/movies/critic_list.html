@@ -1,0 +1,36 @@
+{% extends '_base.html' %}
+{% load bootstrap_pagination %}
+
+{% block title %}Critics{% endblock title %}
+
+{% block content %}
+    <table class='table table-sm'>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Percent Match</th>
+                <th>Publisher</th>
+                <th>Last Review</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for critic in critic_list %}
+            <tr>
+                <td><a href="{% url 'critic_detail' critic.pk %}">{{ critic.name }}</a></td>
+                <td>
+                    {% if user.is_authenticated %}
+                        Coming Soon!
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>{{ critic.publisher }}</td>
+                <td>N/A</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% bootstrap_paginate page_obj range=10 show_prev_next="false" show_first_last="true" extra_pagination_classes="justify-content-center" %}
+    
+{% endblock content %}

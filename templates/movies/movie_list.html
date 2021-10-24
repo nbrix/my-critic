@@ -1,0 +1,36 @@
+{% extends '_base.html' %}
+{% load bootstrap_pagination %}
+
+{% block title %}Movies{% endblock title %}
+
+{% block content %}
+    <table class='table table-sm'>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Personalized Rating</th>
+                <th>Release Date</th>
+                <th>Genre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movie in movie_list %}
+            <tr>
+                <td><a href="{% url 'movie_detail' movie.slug %}">{{ movie.title }}</a></td>
+                <td>
+                    {% if user.is_authenticated %}
+                        {{ movie.rating }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>{{ movie.release_date }}</td>
+                <td>{{ movie.all_genres }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% bootstrap_paginate page_obj range=10 show_prev_next="false" show_first_last="true" extra_pagination_classes="justify-content-center" %}
+
+{% endblock content %}

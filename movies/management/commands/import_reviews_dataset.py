@@ -47,7 +47,7 @@ class Command(BaseCommand):
                     publisher=data['publisher']
                 )
 
-                review, created = Review.objects.get_or_create(
+                review = Review.objects.create(
                     review=data['review'],
                     review_score=data['score'],
                     review_date=data['date'],

@@ -10,4 +10,6 @@ urlpatterns = [
 
     # Local apps
     path('', include('pages.urls')),
+    path('movies/', include('movies.movies_urls')),
+    path('critics/', include('movies.critics_urls')),
 ]
