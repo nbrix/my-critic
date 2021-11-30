@@ -1,12 +1,48 @@
 {% extends '_base.html' %}
 
-{% block title %}{{ review.critic.name }}{% endblock title %}
+{% block title %}{{ critic.name }}{% endblock title %}
 
 {% block content %}
     <div>
-        <h2>{{ review.critic.name }}</a></h2>
-        <p>{{ review.critic.publisher }}</p>
+        <h2>{{ critic.name }}</a></h2>
+        <p>{{ critic.publisher }}</p>
 
-        
+        <h3>Reviews</h3>
+        <div class="row">
+        {% for review in critic.review_set.all %}
+        {%  if forloop.counter|divisibleby:3 %}
+            <div class="col-sm-4 card-deck">
+                <div class="card" style="width: 16rem; margin-top: 15px;">
+                    <div class="card-body">
+                        <a href="{% url 'movie_detail' review.movie.slug %}">
+                            <img class="card-img-top" src="{{ review.movie.poster }}" alt="{{ review.movie.title }}">
+                            <h5 class="card-title">{{ review.movie.title }}</h5>
+                        </a>
+                            <p class="card-text">{{ review.review }}</p>
+                            <p class="card-text">{{ review.review_score }}</p>
+                    </div>
+                </div>
+            </div>
+        {% if not forloop.last %} 
+            </div>
+            <div class="row">
+        {% endif %}
+        {% else %} 
+            <div class="col-sm-4 card-deck">
+                <div class="card" style="width: 16rem; margin-top: 15px;">
+                    <div class="card-body">
+                        <a href="{% url 'movie_detail' review.movie.slug %}">
+                            <img class="card-img-top" src="{{ review.movie.poster }}" alt="{{ review.movie.title }}">
+                            <h5 class="card-title">{{ review.movie.title }}</h5>
+                        </a>
+                            <p class="card-text">{{ review.review }}</p>
+                            <p class="card-text">{{ review.review_score }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock content %}

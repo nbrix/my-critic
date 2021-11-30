@@ -22,10 +22,7 @@ class CriticListView(ListView):
     template_name = 'movies/critic_list.html'
 
 class CriticDetailView(DetailView):
-    model = Review
+    model = Critic
     context_object_name = 'critic'
     template_name = 'movies/critic_detail.html'
 
-    def get_queryset(self):
-        pk = self.kwargs['pk']
-        return Review.objects.filter(critic__id=1)

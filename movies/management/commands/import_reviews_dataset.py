@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from ...models import Movie, Critic, Review
 import csv
 
+
 class Command(BaseCommand):
     help = 'Import movie reviews dataset from csv'
 
@@ -11,7 +12,6 @@ class Command(BaseCommand):
 
             first_row = True
             prev_movie_id = None
-            i, n = 0, 0
             for row in reader:
 
                 # skip headers
@@ -58,7 +58,3 @@ class Command(BaseCommand):
 
                 critic.save()
                 review.save()
-                i += 1
-                if i > n:
-                    print(i)
-                    n += 500

@@ -46,6 +46,17 @@ class Actor(models.Model):
     def __str__(self):
         return self.name
 
+class Publisher(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
 class Critic(models.Model):
     id = models.UUIDField(
         primary_key=True,
@@ -54,10 +65,15 @@ class Critic(models.Model):
     )
     name = models.CharField(max_length=64)
     publisher = models.CharField(max_length=128, null=True, blank=True)
+    publishers = models.ManyToManyField(Publisher, null=True)
     slug = models.SlugField(max_length=200, null=True)
 
     def __str__(self):
         return self.name
+
+    def all_publishers(self):
+        pub_list = [obj.name for obj in self.publishers.all()]
+        return ' | '.join(pub_list)
 
     def save(self, *args, **kwargs):
         self.slug = self.slug or slugify(self.name)
@@ -104,4 +120,5 @@ class Review(models.Model):
     review = models.TextField(null=True, blank=True)
     review_score = models.CharField(max_length=16, null=True, blank=True)
     review_date = models.DateField(null=True, blank=True)
+    sentiment = models.CharField(max_length=8, null=True, blank=True)
 
