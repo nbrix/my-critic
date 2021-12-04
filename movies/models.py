@@ -97,6 +97,8 @@ class Movie(models.Model):
     runtime = models.SmallIntegerField(null=True, blank=True)
     rating = models.CharField(max_length=16, blank=True)
     poster = models.URLField(max_length=200, null=True, blank=True)
+    average_rating = models.DecimalField(max_digits=8, decimal_places=5, null=True, blank=True)
+    standard_deviation = models.DecimalField(max_digits=8, decimal_places=5, null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -119,6 +121,7 @@ class Review(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     review = models.TextField(null=True, blank=True)
     review_score = models.CharField(max_length=16, null=True, blank=True)
+    normalized_score = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     review_date = models.DateField(null=True, blank=True)
     sentiment = models.CharField(max_length=8, null=True, blank=True)
 
