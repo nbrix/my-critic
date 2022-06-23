@@ -7,7 +7,9 @@ from .models import (
     Genre,
     Writer,
     Critic,
-    Review
+    Review,
+    Rating,
+    TopCritics
 )
 
 class MovieAdmin(admin.ModelAdmin):
@@ -55,6 +57,14 @@ class CriticAdmin(admin.ModelAdmin):
         ReviewInline,
     ]
 
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ('movie', 'user',)
+    search_fields = ('movie', 'user',)
+
+class TopCriticsAdmin(admin.ModelAdmin):
+    list_display = ('critic', 'user', 'match',)
+    search_fields = ('critic', 'user',)
+
 
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(Actor, ActorAdmin)
@@ -62,4 +72,6 @@ admin.site.register(Director, DirectorAdmin)
 admin.site.register(Genre, GenreAdmin)
 admin.site.register(Writer, WriterAdmin)
 admin.site.register(Critic, CriticAdmin)
+admin.site.register(Rating, RatingAdmin)
+admin.site.register(TopCritics, TopCriticsAdmin)
 

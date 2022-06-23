@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'accounts',
     'pages',
     'movies',
+    'quiz',
 ]
 
 MIDDLEWARE = [
@@ -154,8 +155,8 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # django-allauth config
-LOGIN_REDIRECT_URL = 'home'
-ACCOUNT_LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'movie_list'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'movie_list'
 ACCOUNT_LOGOUT_ON_GET = True
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (

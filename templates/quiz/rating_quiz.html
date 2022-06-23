@@ -1,0 +1,125 @@
+{% extends '_base.html' %}
+
+{% block title %}Rating Quiz{% endblock title %}
+
+{% block content %}
+    <h1>Strengthen your Profile</h1>
+    <div class="card" >
+    <div style="padding-left: 15px; padding-top: 5px;">
+        <h4>Rate the movies you've seen</h4>
+    </div>
+    <div class="row" style="padding-left: 10%;">
+    {% for movie in quiz_list %}
+    {%  if forloop.counter|divisibleby:3 %}
+            <div class="col-sm-4 card-deck text-center">
+                <div class="card" style="width: 5rem; margin-top: 15px; min-width: 250px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ movie.title }}</h5>
+                        <img class="card-img-top" src="{{ movie.poster }}" alt="{{ movie.title }}" style="height: 300px;  width: 185px;">
+                        <div class="row">
+                            <div class="col text-center">
+                                <fieldset class="rate">
+                                    <input type="radio" id="{{movie.id}}-rating10" name="{{movie.title}}" value="10" /><label for="{{movie.id}}-rating10" title="5 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating9" name="{{movie.title}}" value="9" /><label class="half" for="{{movie.id}}-rating9" title="4 1/2 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating8" name="{{movie.title}}" value="8" /><label for="{{movie.id}}-rating8" title="4 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating7" name="{{movie.title}}" value="7" /><label class="half" for="{{movie.id}}-rating7" title="3 1/2 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating6" name="{{movie.title}}" value="6" /><label for="{{movie.id}}-rating6" title="3 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating5" name="{{movie.title}}" value="5" /><label class="half" for="{{movie.id}}-rating5" title="2 1/2 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating4" name="{{movie.title}}" value="4" /><label for="{{movie.id}}-rating4" title="2 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating3" name="{{movie.title}}" value="3" /><label class="half" for="{{movie.id}}-rating3" title="1 1/2 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating2" name="{{movie.title}}" value="2" /><label for="{{movie.id}}-rating2" title="1 star"></label>
+                                    <input type="radio" id="{{movie.id}}-rating1" name="{{movie.title}}" value="1" /><label class="half" for="{{movie.id}}-rating1" title="1/2 star"></label>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% if not forloop.last %} 
+            </div>
+            <div class="row" style="padding-left: 10%;">
+        {% endif %}
+        {% else %} 
+            <div class="col-sm-4 card-deck text-center">
+                <div class="card" style="width: 5rem; margin-top: 15px; min-width: 250px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ movie.title }}</h5>
+                        <img class="card-img-top" src="{{ movie.poster }}" alt="{{ movie.title }}" style="height: 300px; width: 185px;">
+                        <div class="row">
+                            <div class="col text-center">
+                                <fieldset class="rate">
+                                    <input type="radio" id="{{movie.id}}-rating10" name="{{movie.title}}" value="10" /><label for="{{movie.id}}-rating10" title="5 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating9" name="{{movie.title}}" value="9" /><label class="half" for="{{movie.id}}-rating9" title="4 1/2 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating8" name="{{movie.title}}" value="8" /><label for="{{movie.id}}-rating8" title="4 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating7" name="{{movie.title}}" value="7" /><label class="half" for="{{movie.id}}-rating7" title="3 1/2 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating6" name="{{movie.title}}" value="6" /><label for="{{movie.id}}-rating6" title="3 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating5" name="{{movie.title}}" value="5" /><label class="half" for="{{movie.id}}-rating5" title="2 1/2 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating4" name="{{movie.title}}" value="4" /><label for="{{movie.id}}-rating4" title="2 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating3" name="{{movie.title}}" value="3" /><label class="half" for="{{movie.id}}-rating3" title="1 1/2 stars"></label>
+                                    <input type="radio" id="{{movie.id}}-rating2" name="{{movie.title}}" value="2" /><label for="{{movie.id}}-rating2" title="1 star"></label>
+                                    <input type="radio" id="{{movie.id}}-rating1" name="{{movie.title}}" value="1" /><label class="half" for="{{movie.id}}-rating1" title="1/2 star"></label>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    {% endfor %}
+
+    <!--Pagination-->
+    <div class="container p-4">
+        {% if page_obj.has_previous %}
+            <div style="float: left;">
+                <a href="?page={{ page_obj.previous_page_number }}">
+                    <button class="btn btn-outline-primary">Previous</button>
+                </a>
+            </div>
+            {% endif %}
+            <div style="float: right;">
+                <a href="/" >
+                    <button class="btn btn-outline-secondary">Skip</button>
+                </a>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" >
+                        <button class="btn btn-primary">Next</button>
+                    </a>
+                {% else %}
+                <a href="/" >
+                    <button class="btn btn-primary">Submit</button>
+                </a>
+                {% endif %}
+            </div>
+        <div class="pagination justify-content-center" style="padding: .375rem .75rem;">
+            
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </div>
+        
+      <!--end of Pagination-->
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function() {   
+        $(".rate").click(function(event) {  
+            if ($(event.target).is('input')) {
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'rate_movie' %}",
+                    data: {
+                        id: event.target.id,
+                        name: event.target.name, 
+                        value: event.target.value,
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    error: function (response) {
+                        console.log(response["responseJSON"]["error"]);
+                    }
+                });
+            } 
+        })
+    })
+      
+</script>
+{% endblock content %}

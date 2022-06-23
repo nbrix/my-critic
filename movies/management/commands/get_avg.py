@@ -22,6 +22,4 @@ class Command(BaseCommand):
             movie.average_rating = avg
             movie.standard_deviation = std
             movie.save()
-                
-#m = Movie.objects.annotate(n=Count('review')).order_by('-n')[:100]
-#objs = sorted(m, key=lambda m: m.standard_deviation, reverse=True)
+            

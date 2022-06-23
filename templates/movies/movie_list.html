@@ -1,13 +1,36 @@
 {% extends '_base.html' %}
 {% load bootstrap_pagination %}
+{% load custom_tags %}
 
 {% block title %}Movies{% endblock title %}
 
 {% block content %}
-    <table class='table table-sm'>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function setRating(id, score) {
+        score = parseInt(score)
+        radioId = "#" + id + '-rating' + score;
+        $(radioId).prop('checked', true);
+    }
+</script>
+
+    <div class="col-6 align-left">
+        
+        <form action="{% url 'movie_list' %}" method="get">
+            <i id="search-icon" class="fas fa-search"></i>
+            <input name="q" type="text" placeholder="Search...">
+          </form>
+    </div>
+    
+    <br>
+
+    {% if movie_list %}
+    <table id='movie-table' class='table table-sm'>
         <thead>
             <tr>
                 <th>Title</th>
+                <th>My Rating</th>
                 <th>Personalized Rating</th>
                 <th>Release Date</th>
                 <th>Genre</th>
@@ -15,11 +38,40 @@
         </thead>
         <tbody>
             {% for movie in movie_list %}
+
             <tr>
                 <td><a href="{% url 'movie_detail' movie.slug %}">{{ movie.title }}</a></td>
+                <td style="white-space: nowrap;">
+                    <div style="min-width: 150px;">
+                    <fieldset class="rate" >
+                        <input type="radio" id="{{movie.id}}-rating10" name="{{movie.title}}" value="10" /><label for="{{movie.id}}-rating10" title="5 stars"></label>
+                        <input type="radio" id="{{movie.id}}-rating9" name="{{movie.title}}" value="9" /><label class="half" for="{{movie.id}}-rating9" title="4 1/2 stars"></label>
+                        <input type="radio" id="{{movie.id}}-rating8" name="{{movie.title}}" value="8" /><label for="{{movie.id}}-rating8" title="4 stars"></label>
+                        <input type="radio" id="{{movie.id}}-rating7" name="{{movie.title}}" value="7" /><label class="half" for="{{movie.id}}-rating7" title="3 1/2 stars"></label>
+                        <input type="radio" id="{{movie.id}}-rating6" name="{{movie.title}}" value="6" /><label for="{{movie.id}}-rating6" title="3 stars"></label>
+                        <input type="radio" id="{{movie.id}}-rating5" name="{{movie.title}}" value="5" /><label class="half" for="{{movie.id}}-rating5" title="2 1/2 stars"></label>
+                        <input type="radio" id="{{movie.id}}-rating4" name="{{movie.title}}" value="4" /><label for="{{movie.id}}-rating4" title="2 stars"></label>
+                        <input type="radio" id="{{movie.id}}-rating3" name="{{movie.title}}" value="3" /><label class="half" for="{{movie.id}}-rating3" title="1 1/2 stars"></label>
+                        <input type="radio" id="{{movie.id}}-rating2" name="{{movie.title}}" value="2" /><label for="{{movie.id}}-rating2" title="1 star"></label>
+                        <input type="radio" id="{{movie.id}}-rating1" name="{{movie.title}}" value="1" /><label class="half" for="{{movie.id}}-rating1" title="1/2 star"></label>
+                    </fieldset>
+                </div>
+                        
+                {% if movie.id in ratings %}
+                <script>
+                    setRating("{{movie.id}}", "{{ ratings|get_item:movie.id }}");
+                </script>
+                {% endif %}
+                </td>
                 <td>
                     {% if user.is_authenticated %}
-                        {{ movie.rating }}
+                        {% if ratings|get_item:movie.id %}
+                            {% widthratio ratings|get_item:movie.id 1 10 %}.00
+                        {% elif personalized_ratings|get_item:movie.title %}
+                            {{ personalized_ratings|get_item:movie.title }}
+                        {% else %}
+                            {{ movie.average_rating }}
+                        {% endif %}
                     {% else %}
                         N/A
                     {% endif %}
@@ -27,9 +79,50 @@
                 <td>{{ movie.release_date }}</td>
                 <td>{{ movie.all_genres }}</td>
             </tr>
+            
             {% endfor %}
+             
         </tbody>
+      
     </table>
+    {% else %}
+        <p>No movies found.</p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <script>
+        $(function() {   
+            $(".rate").click(function(event) {  
+                if ($(event.target).is('input')) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'rate_movie' %}",
+                        data: {
+                            id: event.target.id,
+                            name: event.target.name, 
+                            value: event.target.value,
+                            csrfmiddlewaretoken: '{{ csrf_token }}',
+                        },
+                        error: function (response) {
+                            console.log(response["responseJSON"]["error"]);
+                        }
+                    });
+                } 
+            })
+        })
+          
+    </script>
+    {% else %}
+    <script>
+        $(function() {   
+            $(".rate").click(function(event) {  
+                if ($(event.target).is('input')) {
+                    window.location.href='../accounts/login';
+                } 
+            })
+        })
+    </script>
+    {% endif %}
 
     {% bootstrap_paginate page_obj range=10 show_prev_next="false" show_first_last="true" extra_pagination_classes="justify-content-center" %}
 

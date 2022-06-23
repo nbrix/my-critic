@@ -1,9 +1,20 @@
 {% extends '_base.html' %}
 {% load bootstrap_pagination %}
+{% load custom_tags %}
 
 {% block title %}Critics{% endblock title %}
 
 {% block content %}
+<div class="col-6 align-left">
+        
+    <form action="{% url 'critic_list' %}" method="get">
+        <i id="search-icon" class="fas fa-search"></i>
+        <input name="q" type="text" placeholder="Search...">
+      </form>
+</div>
+
+<br>
+{% if critic_list %}
     <table class='table table-sm'>
         <thead>
             <tr>
@@ -19,17 +30,24 @@
                 <td><a href="{% url 'critic_detail' critic.pk %}">{{ critic.name }}</a></td>
                 <td>
                     {% if user.is_authenticated %}
-                        Coming Soon!
+                        {% if top_critics|get_item:critic.name %}
+                            {{ top_critics|get_item:critic.name }}%
+                        {% else %}
+                        &#60;1%
+                        {% endif %}
                     {% else %}
                         N/A
                     {% endif %}
                 </td>
                 <td>{{ critic.all_publishers }}</td>
-                <td>N/A</td>
+                <td>{{ critic.last_review }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+        <p>No critics found.</p>
+    {% endif %}
 
     {% bootstrap_paginate page_obj range=10 show_prev_next="false" show_first_last="true" extra_pagination_classes="justify-content-center" %}
     
