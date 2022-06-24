@@ -137,8 +137,8 @@ class Recommender:
 
         similarity_matrix = self.build_similarity_matrix(normalized_ratings)
 
-        # Find 50 closest neighbors with similar ratings
-        sim_50_matrix = self.find_n_neighbours(similarity_matrix, 50)
+        # Find 100 closest neighbors with similar ratings
+        sim_50_matrix = self.find_n_neighbours(similarity_matrix, 100)
         similar_critics = sim_50_matrix[sim_50_matrix.index.str.fullmatch(self.user_id)].values
         similar_critics = similar_critics.squeeze().tolist()
 
