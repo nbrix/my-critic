@@ -1,1 +1,1 @@
-web: gunicorn mycritic.wsgi
+web: gunicorn wsgi
