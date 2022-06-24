@@ -1,0 +1,48 @@
+@import url(//use.fontawesome.com/releases/v5.4.2/css/all.css);
+
+/* Star Rating */
+.rate {
+    display: inline-block;
+    border: 0;
+}
+
+.rate > input {
+    display: none;
+}
+
+.rate > label {
+    color: #ddd;
+    float: right;
+}
+
+.rate > label:before {
+    display: inline-block;
+    font-size: 1.1rem;
+    padding: .3rem .2rem;
+    margin-right:0;
+    cursor: pointer;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    content: "\f005"; 
+}
+
+.rate .half:before {
+    content: "\f005"; 
+    position: absolute;
+    padding-right: 0;
+    width: 0.8rem;
+    overflow: hidden;
+    margin-right: 0.4rem;
+}
+
+input:checked ~ label, 
+label:hover, label:hover ~ label { color: #FFD700;  } 
+
+input:checked + label:hover, input:checked ~ label:hover, 
+input:checked ~ label:hover ~ label, 
+label:hover ~ input:checked ~ label { color: #FFED85;  }
+
+
+.container {
+    padding-bottom: 25px;
+}
