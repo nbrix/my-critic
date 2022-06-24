@@ -16,6 +16,8 @@ panda = "*"
 pandas = "*"
 sklearn = "*"
 np = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.9"
