@@ -25,3 +25,6 @@ This project is will not be deployed due to cost for hosting a site with the amo
   * Reviews
   * And many more...
   
+## Screenshots
+
+![alt text](static/images/critic-match.JPG?raw=true)
