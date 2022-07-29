@@ -27,4 +27,14 @@ This project is will not be deployed due to cost for hosting a site with the amo
   
 ## Screenshots
 
-![alt text](static/images/critic-match.JPG?raw=true)
+#### Matching Critics
+![critic match](static/images/critic-match.JPG?raw=true)
+
+#### Critic Details
+![critics page](static/images/critics-page.JPG?raw=true)
+
+#### Custom Ratings
+![ratings](static/images/ratings.JPG?raw=true)
+
+#### List of Top Critics
+![top-critics](static/images/top-critics.JPG?raw=true)
